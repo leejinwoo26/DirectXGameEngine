@@ -1,9 +1,22 @@
 #pragma once
 #include "DXWin.h"
-
+#include "DXException.h"
 
 class Window
 {
+public:
+	class Exception : public DXException
+	{
+	public:
+		Exception(int line, const char* file, HRESULT hr) noexcept;
+		const char* what() const noexcept override;
+		virtual const char* GetType() const noexcept;
+		static std::string TranslateErrorCode(HRESULT hr) noexcept;
+		HRESULT GetErrorCode() const noexcept;
+		std::string GetErrorDescription() const noexcept;
+	private:
+		HRESULT hr;
+	};
 private:
 	class WindowClass
 	{
@@ -36,3 +49,6 @@ private:
 	HWND hWnd;
 };
 
+
+//예외 헬퍼 매크로
+#define   CHWND_EXCEPT(hr)    Window::Exception(__LINE__,__FILE__,hr)

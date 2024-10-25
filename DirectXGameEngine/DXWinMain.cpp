@@ -2,7 +2,7 @@
 #include "Window.h"
 #include "WindowsMessageMap.h"
 #include <sstream>
-
+#include "DXException.h"
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
@@ -45,28 +45,49 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 	return DefWindowProc(hWnd, msg, wParam, lParam);
 }
 
+
+
+
+
+
 int CALLBACK WinMain(
 	HINSTANCE hInstance,
 	HINSTANCE hPrevInstance,
 	LPSTR lpCmdLine,
 	int nCmdShow)
 {
-	Window wnd(800,300,L"DX3D_GameEngine");
-
-	MSG msg;
-	BOOL gResult;
-
-	while ((gResult = GetMessage(&msg, nullptr, 0, 0)) > 0)
+	try
 	{
-		TranslateMessage(&msg);
-		DispatchMessageW(&msg);
-	}
+		Window wnd(800, 300, L"DX3D_GameEngine");
 
-	if (gResult == -1) {
-		return -1;
+		MSG msg;
+		BOOL gResult;
+
+		while ((gResult = GetMessage(&msg, nullptr, 0, 0)) > 0)
+		{
+			TranslateMessage(&msg);
+			DispatchMessageW(&msg);
+		}
+
+		if (gResult == -1) {
+			return -1;
+		}
+		else
+		{
+			return msg.wParam;
+		}
 	}
-	else
+	catch (const DXException& e)
 	{
-		return msg.wParam;
+		MessageBoxA(nullptr, e.what(), e.GetType(), MB_OK | MB_ICONEXCLAMATION);
 	}
+	catch (const std::exception& e)
+	{
+		MessageBoxA(nullptr, e.what(), "Standard Exception", MB_OK | MB_ICONEXCLAMATION);
+	}
+	catch (...)
+	{
+		MessageBoxA(nullptr, "No details available", "Unknown Exception", MB_OK | MB_ICONEXCLAMATION);
+	}
+	return -1;
 }
