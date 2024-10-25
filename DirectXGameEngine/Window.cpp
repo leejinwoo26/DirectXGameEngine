@@ -1,5 +1,8 @@
 #include "Window.h"
 #include <sstream>
+#include "resource.h"
+
+
 Window::WindowClass Window::WindowClass::wndClass = {};
 
 const wchar_t* Window::WindowClass::GetName() noexcept
@@ -22,12 +25,17 @@ Window::WindowClass::WindowClass() noexcept:
 	wc.cbClsExtra = 0;
 	wc.cbWndExtra = 0;
 	wc.hInstance = GetInstance();
-	wc.hIcon = nullptr;
+	wc.hIcon = static_cast<HICON>(LoadImage(
+		GetInstance(), MAKEINTRESOURCE(IDI_ICON2),
+		IMAGE_ICON, 32, 32, 0));
+
 	wc.hCursor = nullptr;
 	wc.hbrBackground = nullptr;
 	wc.lpszMenuName = nullptr;
 	wc.lpszClassName = GetName();
-	wc.hIconSm = nullptr;
+	wc.hIconSm = static_cast<HICON>(LoadImage(
+		GetInstance(), MAKEINTRESOURCE(IDI_ICON2),
+		IMAGE_ICON, 32, 32, 0));
 	RegisterClassEx(&wc);
 }
 
@@ -38,21 +46,26 @@ Window::WindowClass::~WindowClass()
 
 
 
-Window::Window(int width, int height, const wchar_t* name) noexcept
+Window::Window(int width, int height, const wchar_t* name) 
 {
 	RECT wr;
 	wr.left = 100;
 	wr.right = width + wr.left;
 	wr.top = 100;
 	wr.bottom = height + wr.top;
-	AdjustWindowRect(&wr, WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU, FALSE);
+	if (FAILED(AdjustWindowRect(&wr, WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU, FALSE)))
+	{
+		throw CHWND_LAST_EXCEPT();
+	}
 
 	hWnd = CreateWindow(
 		WindowClass::GetName(), name,
 		WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU,
 		CW_USEDEFAULT, CW_USEDEFAULT, wr.right - wr.left, wr.bottom - wr.top,
 		nullptr, nullptr, WindowClass::GetInstance(), this);
-	
+	if (hWnd == nullptr) {
+		throw CHWND_LAST_EXCEPT();
+	}
 
 	ShowWindow(hWnd, SW_SHOWDEFAULT);
 }
@@ -88,7 +101,27 @@ LRESULT Window::HandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noe
 	case WM_CLOSE:
 		PostQuitMessage(0);
 		return 0;
+	case WM_KILLFOCUS:
+		kbd.ClearState();
+		break;
+	case WM_KEYDOWN:
+		break;
+	case WM_SYSKEYDOWN:
+		if (!(lParam & 0x40000000) || kbd.AutorepeatIsEnabled())
+		{
+			kbd.OnKeyPressed(static_cast<unsigned char> (wParam));
+		}
+		break;
+	case WM_KEYUP:
+		break;
+	case WM_SYSKEYUP:
+		kbd.OnKeyReleased(static_cast<unsigned char> (wParam));
+		break;
+	case WM_CHAR:
+		kbd.OnChar(static_cast<unsigned char> (wParam));
+		break;
 	}
+
 	return DefWindowProc(hWnd,msg,wParam,lParam); 
 }
 

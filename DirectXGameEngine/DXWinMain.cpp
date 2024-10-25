@@ -58,7 +58,7 @@ int CALLBACK WinMain(
 {
 	try
 	{
-		Window wnd(800, 300, L"DX3D_GameEngine");
+		Window wnd(800, 600, L"DX3D_GameEngine");
 
 		MSG msg;
 		BOOL gResult;
@@ -67,6 +67,10 @@ int CALLBACK WinMain(
 		{
 			TranslateMessage(&msg);
 			DispatchMessageW(&msg);
+			if (wnd.kbd.KeyIsPressed(VK_MENU))
+			{
+				MessageBox(nullptr, L"Something Happen", L"SpaceKey", MB_OK);
+			}
 		}
 
 		if (gResult == -1) {

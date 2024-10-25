@@ -139,14 +139,24 @@
   <ItemGroup>
     <ClCompile Include="DXException.cpp" />
     <ClCompile Include="DXWinMain.cpp" />
+    <ClCompile Include="Keyboard.cpp" />
     <ClCompile Include="Window.cpp" />
     <ClCompile Include="WindowsMessageMap.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DXException.h" />
     <ClInclude Include="DXWin.h" />
+    <ClInclude Include="Keyboard.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="Window.h" />
     <ClInclude Include="WindowsMessageMap.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="DirectXGameEngine.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\Icon\chili.ico" />
+    <Image Include="..\Icon\directx_HIr_icon.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
