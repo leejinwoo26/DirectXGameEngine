@@ -148,7 +148,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="App.cpp" />
+    <ClCompile Include="dxerr.cpp" />
     <ClCompile Include="DXException.cpp" />
+    <ClCompile Include="DxgiInfoManager.cpp" />
     <ClCompile Include="DXTimer.cpp" />
     <ClCompile Include="DXWinMain.cpp" />
     <ClCompile Include="Graphics.cpp" />
@@ -159,7 +161,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App.h" />
+    <ClInclude Include="dxerr.h" />
     <ClInclude Include="DXException.h" />
+    <ClInclude Include="DxgiInfoManager.h" />
     <ClInclude Include="DXTimer.h" />
     <ClInclude Include="DXWin.h" />
     <ClInclude Include="Graphics.h" />
@@ -175,6 +179,11 @@
   <ItemGroup>
     <Image Include="..\Icon\chili.ico" />
     <Image Include="..\Icon\directx_HIr_icon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="DXGetErrorDescription.inl" />
+    <None Include="DXGetErrorString.inl" />
+    <None Include="DXTrace.inl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
