@@ -10,7 +10,6 @@ int App::Go()
 {
 	while (true)
 	{
-		Sleep(1);
 		if (const auto ecode = Window::ProcessMessage())
 		{
 			return *ecode;
@@ -21,8 +20,7 @@ int App::Go()
 
 void App::DoFrame()
 {
-	const float t = timer.Peek();
-	std::wostringstream oss;
-	oss << "Time Elapsed: " << std::setprecision(1) << std::fixed << t << std::endl;
-	wnd.SetTitle(oss.str());
+	const float c = sin(timer.Peek()) / 2.f + 0.5f;
+	wnd.Gfx().ClearBuffer(c, c, 1.f);
+	wnd.Gfx().EndFrame();
 }
