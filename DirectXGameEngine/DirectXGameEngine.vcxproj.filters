@@ -16,6 +16,9 @@
     <Filter Include="DxErr">
       <UniqueIdentifier>{5627609c-54df-40c0-bbd9-faea0e4c7a04}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Shader">
+      <UniqueIdentifier>{3f7590c2-0cee-40a4-a3c1-8caa9c344db8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DXWinMain.cpp">
@@ -96,9 +99,6 @@
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="..\Icon\chili.ico">
-      <Filter>리소스 파일</Filter>
-    </Image>
     <Image Include="..\Icon\directx_HIr_icon.ico">
       <Filter>리소스 파일</Filter>
     </Image>
@@ -113,5 +113,13 @@
     <None Include="DXTrace.inl">
       <Filter>DxErr</Filter>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="VertexShader.hlsl">
+      <Filter>Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="PixelShader.hlsl">
+      <Filter>Shader</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

@@ -2,7 +2,7 @@
 #include <sstream>
 
 App::App(): 
-    wnd(800,500,L"DX3D_GameEngine")
+    wnd(800,600,L"DX3D_GameEngine")
 {
 }
 
@@ -22,5 +22,6 @@ void App::DoFrame()
 {
 	const float c = sin(timer.Peek()) / 2.f + 0.5f;
 	wnd.Gfx().ClearBuffer(c, c, 1.f);
+	wnd.Gfx().DrawTestTriangle();
 	wnd.Gfx().EndFrame();
 }

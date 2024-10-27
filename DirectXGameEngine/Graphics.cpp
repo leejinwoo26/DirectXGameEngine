@@ -1,10 +1,13 @@
 #include "Graphics.h"
 #include "dxerr.h"
 #include <sstream>
+#include <d3dcompiler.h>
 
-
+namespace wrl = Microsoft::WRL;
 
 #pragma comment(lib,"d3d11.lib")
+
+#pragma	comment(lib,"D3DCompiler.lib")
 
 #define GFX_THROW_FAILED(hrcall) if(FAILED(hr = (hrcall))) throw Graphics::HrException(__LINE__,__FILE__,hr)
 #define GFX_EXCEPT_NOINFO(hr) Graphics::HrException( __LINE__,__FILE__,(hr) )
@@ -54,7 +57,7 @@ Graphics::Graphics(HWND hWnd)
 #endif // NDEBUG
 
 
-	GFX_THROW_INFO(D3D11CreateDeviceAndSwapChain(
+	GFX_THROW_FAILED(D3D11CreateDeviceAndSwapChain(
 		nullptr,
 		D3D_DRIVER_TYPE_HARDWARE,
 		nullptr,
@@ -69,29 +72,12 @@ Graphics::Graphics(HWND hWnd)
 		&pContext
 	));
 
-	ID3D11Resource* pBackBuffer = nullptr;
-	GFX_THROW_INFO(pSwap->GetBuffer(0, __uuidof(ID3D11Resource), reinterpret_cast<void**>(&pBackBuffer)));
-	GFX_THROW_INFO(pDevice->CreateRenderTargetView(pBackBuffer, nullptr, &pTarget));
 
-	pBackBuffer->Release();
+	wrl::ComPtr<ID3D11Resource> pBackBuffer;
+	GFX_THROW_FAILED(pSwap->GetBuffer(0, __uuidof(ID3D11Resource), &pBackBuffer));
+	GFX_THROW_FAILED(pDevice->CreateRenderTargetView(pBackBuffer.Get(), nullptr, &pTarget));
 }
 
-Graphics::~Graphics()
-{
-	if (pTarget != nullptr)
-	{
-		pTarget->Release();
-	}
-	if (pDevice != nullptr) {
-		pDevice->Release();
-	}
-	if (pSwap != nullptr) {
-		pSwap->Release();
-	}
-	if (pContext != nullptr) {
-		pContext->Release();
-	}
-}
 
 void Graphics::EndFrame()
 {
@@ -116,7 +102,97 @@ void Graphics::EndFrame()
 void Graphics::ClearBuffer(float red, float green, float blue) noexcept
 {
 	const float color[] = { red,green,blue,1.f };
-	pContext->ClearRenderTargetView(pTarget, color);
+	pContext->ClearRenderTargetView(pTarget.Get(), color);
+}
+
+void Graphics::DrawTestTriangle()
+{
+	namespace wrl = Microsoft::WRL;
+	HRESULT hr;
+	struct Vertex
+	{
+		float x;
+		float y;
+	};
+	const Vertex vertexs[] =
+	{
+		{ 0,0.5 },
+		{ 0.5,-0.5 },
+		{ -0.5,-0.5 }
+	};
+
+	//버텍스 버퍼 만들기
+	wrl::ComPtr<ID3D11Buffer> pVertexBuffer;
+	D3D11_BUFFER_DESC bd = {};
+	bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+	bd.Usage = D3D11_USAGE_DEFAULT;
+	bd.CPUAccessFlags = 0u;
+	bd.MiscFlags = 0u;
+	bd.ByteWidth = sizeof(vertexs);
+	bd.StructureByteStride = sizeof(Vertex);
+	D3D11_SUBRESOURCE_DATA sd = {};
+	sd.pSysMem = vertexs;
+	GFX_THROW_INFO(pDevice->CreateBuffer(&bd, &sd, &pVertexBuffer));
+
+	//파이프라인에 버텍스 버퍼 바인드
+	const UINT stride = sizeof(Vertex);
+	const UINT offset = 0u;
+	pContext->IASetVertexBuffers(0u,1u,pVertexBuffer.GetAddressOf(), &stride, &offset);
+
+	//버텍스 쉐이더 만들기
+	wrl::ComPtr<ID3D11VertexShader> pVertexShader;
+	wrl::ComPtr<ID3DBlob> pBlob;
+	GFX_THROW_INFO(D3DReadFileToBlob(L"VertexShader.cso", &pBlob));
+	GFX_THROW_INFO(pDevice->CreateVertexShader(pBlob->GetBufferPointer(),
+		pBlob->GetBufferSize(), nullptr, &pVertexShader));
+
+	//버텍스 쉐이더 바인드
+	pContext->VSSetShader(pVertexShader.Get(), nullptr, 0u);
+
+
+	//인풋 레이아웃 (2d only)
+	wrl::ComPtr<ID3D11InputLayout> pInputLayout;
+	const D3D11_INPUT_ELEMENT_DESC ied[]
+	{
+		{"position",0,DXGI_FORMAT_R32G32_FLOAT,0,0,D3D11_INPUT_PER_VERTEX_DATA,0}
+	};
+	GFX_THROW_INFO(pDevice->CreateInputLayout
+	(ied, (UINT)std::size(ied), pBlob->GetBufferPointer(),
+		pBlob->GetBufferSize(), &pInputLayout));
+
+	pContext->IASetInputLayout(pInputLayout.Get());
+
+
+	//픽셀셰이더 만들기
+	wrl::ComPtr<ID3D11PixelShader> pPixelShader;
+	GFX_THROW_INFO(D3DReadFileToBlob(L"PixelShader.cso", &pBlob));
+	GFX_THROW_INFO(pDevice->CreatePixelShader(pBlob->GetBufferPointer(),
+		pBlob->GetBufferSize(), nullptr, &pPixelShader));
+
+	//픽셀셰이더 바인드
+	pContext->PSSetShader(pPixelShader.Get(), nullptr, 0u);
+
+
+	//렌더타겟에 바인드
+	pContext->OMSetRenderTargets(1u, pTarget.GetAddressOf(), nullptr);
+
+	//프리미티브 topology list 
+	pContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+
+
+
+	//뷰포트 구성
+	D3D11_VIEWPORT vp;
+	vp.Width = 800;
+	vp.Height = 600;
+	vp.MinDepth = 0;
+	vp.MaxDepth = 1;
+	vp.TopLeftX = 0;
+	vp.TopLeftY = 0;
+	pContext->RSSetViewports(1u, &vp);
+
+
+	GFX_THROW_INFO_ONLY(pContext->Draw((UINT)std::size(vertexs), 0u));
 }
 
 Graphics::HrException::HrException(int line, const char* file, HRESULT hr, std::vector<std::string> infoMsgs) noexcept
