@@ -70,7 +70,3 @@ private:
 	std::unique_ptr<Graphics> pGfx;
 };
 
-//
-////예외 헬퍼 매크로
-//#define   CHWND_EXCEPT(hr)    Window::Exception(__LINE__,__FILE__,hr)
-//#define   CHWND_LAST_EXCEPT()    Window::Exception(__LINE__,__FILE__,GetLastError())

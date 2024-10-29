@@ -6,10 +6,17 @@
 #include <d3d11.h>	
 #include <wrl.h>
 
+#include <d3dcompiler.h>
+#include <DirectXMath.h>
+#include <memory>
+#include <random>
+#include "ConditionalNoexcept.h"
 
 class Graphics
 {
 public:
+	friend class Bindable;
+
 	class Exception : public DXException
 	{
 		using DXException::DXException;
@@ -38,6 +45,7 @@ public:
 	private:
 		std::string info;
 	};
+
 	class DeviceRemovedException : public HrException
 	{
 		using HrException::HrException;
@@ -55,9 +63,11 @@ public:
 
 	void EndFrame();
 	void ClearBuffer(float red, float green, float blue) noexcept;
-	void DrawTestTriangle(float angle,float x, float z);
+	void DrawIndexed(UINT count) noexcept;
+	void SetProjection(DirectX::FXMMATRIX proj) noexcept;
+	DirectX::XMMATRIX GetProjection() const noexcept;
 private:
-
+	DirectX::XMMATRIX projection;
 #ifndef NDEBUG
 	DxgiInfoManager infoManager;
 #endif
