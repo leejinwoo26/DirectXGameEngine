@@ -1,7 +1,7 @@
 #include "Window.h"
 #include <sstream>
 #include "resource.h"
-
+#include "WindowsThrowMacros.h"
 
 Window::WindowClass Window::WindowClass::wndClass = {};
 
@@ -211,14 +211,14 @@ LRESULT Window::HandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noe
 	return DefWindowProc(hWnd,msg,wParam,lParam); 
 }
 
-Window::Exception::Exception(int line, const char* file, HRESULT hr) noexcept
+
+Window::HrException::HrException(int line, const char* file, HRESULT hr) noexcept
 	:
-	DXException(line,file),
+	Exception(line, file),
 	hr(hr)
 {
 }
-
-const char* Window::Exception::what() const noexcept
+const char* Window::HrException::what() const noexcept
 {
 	std::ostringstream oss;
 	oss << GetType() << std::endl
@@ -227,19 +227,33 @@ const char* Window::Exception::what() const noexcept
 		<< "[Description] " << GetErrorDescription() << std::endl
 		<< GetOriginString();
 	whatBuffer = oss.str();
-
 	return whatBuffer.c_str();
 }
 
-const char* Window::Exception::GetType() const noexcept
+const char* Window::HrException::GetType() const noexcept
 {
-	return "Window Exception";
+	return "DX Window Exception";
+}
+
+HRESULT Window::HrException::GetErrorCode() const noexcept
+{
+	return hr;
+}
+
+std::string Window::HrException::GetErrorDescription() const noexcept
+{
+	return Exception::TranslateErrorCode(hr);
+}
+
+
+const char* Window::NoGfxException::GetType() const noexcept
+{
+	return "DX Window Exception [No Graphics]";
 }
 
 std::string Window::Exception::TranslateErrorCode(HRESULT hr) noexcept
 {
 	char* pMsgBuf = nullptr;
-
 	const DWORD nMsgLen = FormatMessage(
 		FORMAT_MESSAGE_ALLOCATE_BUFFER |
 		FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
@@ -251,17 +265,6 @@ std::string Window::Exception::TranslateErrorCode(HRESULT hr) noexcept
 		return "Unidentified error code";
 	}
 	std::string errorString = pMsgBuf;
-
 	LocalFree(pMsgBuf);
 	return errorString;
-}
-
-HRESULT Window::Exception::GetErrorCode() const noexcept
-{
-	return hr;
-}
-
-std::string Window::Exception::GetErrorDescription() const noexcept
-{
-	return Exception::TranslateErrorCode(hr);
 }
