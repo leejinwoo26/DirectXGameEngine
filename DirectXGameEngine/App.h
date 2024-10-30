@@ -14,6 +14,7 @@ private:
 private:
 	Window wnd;
 	DXTimer timer;
-	std::vector<std::unique_ptr<Box>> boxes;
+	std::vector<std::unique_ptr<class Drawable>> drawables;
+	static constexpr size_t nDrawables = 180;
 };
 
