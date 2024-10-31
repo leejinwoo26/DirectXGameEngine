@@ -2,7 +2,7 @@
 #include "Window.h"
 #include "DXTimer.h"
 #include "Box.h"
-
+#include "ImguiManager.h"
 
 class App
 {
@@ -12,6 +12,7 @@ public:
 private:
 	void DoFrame();
 private:
+	ImguiManager imgui;
 	Window wnd;
 	DXTimer timer;
 	std::vector<std::unique_ptr<class Drawable>> drawables;
