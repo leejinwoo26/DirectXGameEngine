@@ -3,6 +3,7 @@
 #include "DXTimer.h"
 #include "Box.h"
 #include "ImguiManager.h"
+#include "Camera.h"
 
 class App
 {
@@ -14,6 +15,7 @@ private:
 private:
 	ImguiManager imgui;
 	Window wnd;
+	Camera cam;
 	DXTimer timer;
 	std::vector<std::unique_ptr<class Drawable>> drawables;
 	float speed_factor = 1.f;
