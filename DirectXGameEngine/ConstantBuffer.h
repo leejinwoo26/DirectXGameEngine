@@ -47,7 +47,7 @@ public:
 		cbd.MiscFlags = 0u;
 		cbd.ByteWidth = sizeof(C);
 		cbd.StructureByteStride = 0u;
-		GFX_THROW_INFO(GetDevice(gfx)->CreateBuffer(&cbd, nullptr, &pConstantBuffer));
+		GFX_THROW_INFO(GetDevice(gfx)->CreateBuffer(&cbd, nullptr, &pConstantBuffer));	
 	}
 protected:
 	Microsoft::WRL::ComPtr<ID3D11Buffer> pConstantBuffer;

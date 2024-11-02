@@ -35,7 +35,6 @@ public:
 			}
 		}
 
-		// add the cap vertices
 		const auto iNorthPole = (unsigned short)vertices.size();
 		vertices.emplace_back();
 		dx::XMStoreFloat3(&vertices.back().pos, base);

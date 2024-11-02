@@ -38,7 +38,7 @@ SkinnedBox::SkinnedBox(Graphics& gfx,
 				float v;
 			} tex;
 		};
-		const auto model = Cube::MakeSkinned<Vertex>();
+		const auto& model = Cube::MakeSkinned<Vertex>();
 
 		AddStaticBind( std::make_unique<VertexBuffer>( gfx,model.vertices ) );
 		AddStaticBind(std::make_unique<Sampler>(gfx));
