@@ -9,7 +9,8 @@ Box::Box(Graphics& gfx,
 	std::uniform_real_distribution<float>& ddist,
 	std::uniform_real_distribution<float>& odist,
 	std::uniform_real_distribution<float>& rdist,
-	std::uniform_real_distribution<float>& bdist)
+	std::uniform_real_distribution<float>& bdist,
+	DirectX::XMFLOAT3 material)
 	:
 	r(rdist(rng)),
 	droll(ddist(rng)),
@@ -45,14 +46,6 @@ Box::Box(Graphics& gfx,
 
 		AddStaticIndexBuffer(std::make_unique<IndexBuffer>(gfx, model.indices));
 
-
-		/*struct PSLightConstants
-		{
-			dx::XMVECTOR pos;
-		};
-
-		AddStaticBind(std::make_unique<PixelConstantBuffer<PSLightConstants>>(gfx));*/
-		 
 		const std::vector<D3D11_INPUT_ELEMENT_DESC> ied =
 		{
 			{ "Position",0,DXGI_FORMAT_R32G32B32_FLOAT,0,0,D3D11_INPUT_PER_VERTEX_DATA,0 },
@@ -67,6 +60,19 @@ Box::Box(Graphics& gfx,
 		SetIndexFromStatic();
 	}
 	AddBind(std::make_unique<TransformCbuf>(gfx, *this));
+
+
+	struct PSMaterialConstant
+	{
+		alignas(16) dx::XMFLOAT3 color;
+		float specularIntensity = 0.6f;
+		float specularPower = 30.0f;
+		float padding[2];
+	} colorConst;
+
+	colorConst.color = material;
+
+	AddBind(std::make_unique<PixelConstantBuffer<PSMaterialConstant>>(gfx, colorConst, 1u));
 
 	// model deformation transform (per instance, not stored as bind)
 	dx::XMStoreFloat3x3(
