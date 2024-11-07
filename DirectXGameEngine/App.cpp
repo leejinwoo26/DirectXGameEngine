@@ -7,6 +7,9 @@
 #include "Surface.h"
 #include "GDIPlusManager.h"
 #include "imgui/imgui.h"
+#include <assimp/Importer.hpp>
+#include <assimp/scene.h>
+#include <assimp/postprocess.h>
 
 GDIPlusManager gdipm;
 
@@ -16,6 +19,9 @@ App::App():
     wnd(800,600,L"DX3D_GameEngine"),
 	light(wnd.Gfx())
 {
+	Assimp::Importer imp;
+	auto model = imp.ReadFile("models\\suzanne.obj", aiProcess_Triangulate | aiProcess_JoinIdenticalVertices);
+
 	class Factory
 	{
 	public:
