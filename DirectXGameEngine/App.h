@@ -6,6 +6,7 @@
 #include "Camera.h"
 #include "PointLight.h"
 #include <set>
+#include "Model.h"
 
 class App
 {
@@ -14,20 +15,23 @@ public:
 	int Go();
 private:
 	void DoFrame();
-	void SpawnSimulationWindow() noexcept;
-	void SpawnBoxWindowManagerWindow() noexcept;
-	void SpawnBoxWindows() noexcept;
+	void ShowModelWindow();
 private:
 	ImguiManager imgui;
 	Window wnd;
 	Camera cam;
 	DXTimer timer;
-	std::vector<std::unique_ptr<class Drawable>> drawables;
-	std::vector<class Box*> boxes;
+	Model nano{ wnd.Gfx(),"Models\\nanosuit.obj" };
 	float speed_factor = 1.f;
-	static constexpr size_t nDrawables = 180;
-	std::optional<int> comboBoxIndex;
-	std::set<int> boxControlIds;
 	PointLight light;
+	struct
+	{
+		float roll = 0.0f;
+		float pitch = 0.0f;
+		float yaw = 0.0f;
+		float x = 0.0f;
+		float y = 0.0f;
+		float z = 0.0f;
+	} pos;
 };
 

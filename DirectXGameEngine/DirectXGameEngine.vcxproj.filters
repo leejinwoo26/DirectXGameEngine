@@ -123,9 +123,6 @@
     <ClCompile Include="Texture.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Sheet.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="Sampler.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
@@ -160,6 +157,12 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="SolidSphere.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="AssTest.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Cylinder.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
@@ -281,9 +284,6 @@
     <ClInclude Include="Texture.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Sheet.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="Sampler.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
@@ -324,6 +324,21 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="SolidSphere.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="AssTest.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Cylinder.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="TestObject.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Vertex.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Model.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
@@ -373,5 +388,10 @@
     <FxCompile Include="PhongPS.hlsl">
       <Filter>Shader</Filter>
     </FxCompile>
+    <FxCompile Include="BlendedPhongPS.hlsl" />
+    <FxCompile Include="BlendedPhongVS.hlsl" />
+    <FxCompile Include="IndexedPhongPS.hlsl" />
+    <FxCompile Include="TexturedPhongPS.hlsl" />
+    <FxCompile Include="TexturedPhongVS.hlsl" />
   </ItemGroup>
 </Project>
