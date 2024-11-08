@@ -4,6 +4,8 @@
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
+
+
 AssTest::AssTest(Graphics& gfx, std::mt19937& rng,
 	std::uniform_real_distribution<float>& adist,
 	std::uniform_real_distribution<float>& ddist,
@@ -22,6 +24,7 @@ AssTest::AssTest(Graphics& gfx, std::mt19937& rng,
 			dx::XMFLOAT3 pos;
 			dx::XMFLOAT3 n;
 		};
+
 		Assimp::Importer imp;
 		const auto pModel = imp.ReadFile("models\\suzanne.obj",
 			aiProcess_Triangulate |
@@ -31,13 +34,17 @@ AssTest::AssTest(Graphics& gfx, std::mt19937& rng,
 
 		std::vector<Vertex> vertices;
 		vertices.reserve(pMesh->mNumVertices);
+
 		for (unsigned int i = 0; i < pMesh->mNumVertices; i++)
 		{
 			vertices.push_back({
-				{ pMesh->mVertices[i].x * scale,pMesh->mVertices[i].y * scale,pMesh->mVertices[i].z * scale },
+				{ pMesh->mVertices[i].x * scale,
+				pMesh->mVertices[i].y * scale,
+				pMesh->mVertices[i].z * scale },
 				*reinterpret_cast<dx::XMFLOAT3*>(&pMesh->mNormals[i])
 				});
 		}
+
 		std::vector<unsigned short> indices;
 		indices.reserve(pMesh->mNumFaces * 3);
 		for (unsigned int i = 0; i < pMesh->mNumFaces; i++)

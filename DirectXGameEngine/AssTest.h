@@ -1,6 +1,6 @@
 #pragma once
 #include "TestObject.h"
-#include "ConstantBuffers.h"
+#include "ConstantBuffer.h"
 
 class AssTest : public TestObject<AssTest>
 {
