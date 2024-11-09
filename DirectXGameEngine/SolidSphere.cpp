@@ -9,9 +9,11 @@
 #include "InputLayout.h"
 #include "Topology.h"
 #include "TransformCbuf.h"
+#include "BindableCommon.h"
 
 SolidSphere::SolidSphere(Graphics& gfx, float radius)
 {
+	using namespace Bind;
 	namespace dx = DirectX;
 	if (!IsStaticInitialized())
 	{

@@ -158,7 +158,7 @@ void Graphics::BeginFrame(float red, float green, float blue) noexcept
 	pContext->ClearDepthStencilView(pDSV.Get(),D3D11_CLEAR_DEPTH,1.f,0u);
 }
 
-void Graphics::DrawIndexed(UINT count) noexcept
+void Graphics::DrawIndexed(UINT count)
 {
 	GFX_THROW_INFO_ONLY(pContext->DrawIndexed(count, 0u, 0u));
 }

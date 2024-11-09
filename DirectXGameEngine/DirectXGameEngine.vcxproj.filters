@@ -75,9 +75,6 @@
     <ClCompile Include="Bindable.cpp">
       <Filter>소스 파일\Bindable</Filter>
     </ClCompile>
-    <ClCompile Include="Box.cpp">
-      <Filter>소스 파일\Drawable</Filter>
-    </ClCompile>
     <ClCompile Include="Drawable.cpp">
       <Filter>소스 파일\Bindable</Filter>
     </ClCompile>
@@ -105,9 +102,6 @@
     <ClCompile Include="VertexShader.cpp">
       <Filter>소스 파일\Bindable</Filter>
     </ClCompile>
-    <ClCompile Include="Pyramid.cpp">
-      <Filter>소스 파일\Drawable</Filter>
-    </ClCompile>
     <ClCompile Include="App.cpp">
       <Filter>소스 파일\App</Filter>
     </ClCompile>
@@ -124,9 +118,6 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="Sampler.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="SkinnedBox.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="Camera.cpp">
@@ -162,7 +153,10 @@
     <ClCompile Include="AssTest.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Cylinder.cpp">
+    <ClCompile Include="Mesh.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Vertex.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
@@ -209,11 +203,8 @@
     <ClInclude Include="Bindable.h">
       <Filter>헤더 파일\Bindable</Filter>
     </ClInclude>
-    <ClInclude Include="BindableBase.h">
+    <ClInclude Include="BindableCommon.h">
       <Filter>헤더 파일\Bindable</Filter>
-    </ClInclude>
-    <ClInclude Include="Box.h">
-      <Filter>헤더 파일\Drawable</Filter>
     </ClInclude>
     <ClInclude Include="Cone.h">
       <Filter>헤더 파일\Drawable</Filter>
@@ -254,9 +245,6 @@
     <ClInclude Include="Prism.h">
       <Filter>헤더 파일\Drawable</Filter>
     </ClInclude>
-    <ClInclude Include="Pyramid.h">
-      <Filter>헤더 파일\Drawable</Filter>
-    </ClInclude>
     <ClInclude Include="ConstantBuffer.h">
       <Filter>헤더 파일\Bindable</Filter>
     </ClInclude>
@@ -285,9 +273,6 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Sampler.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="SkinnedBox.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Camera.h">
@@ -329,16 +314,16 @@
     <ClInclude Include="AssTest.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Cylinder.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="TestObject.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Vertex.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Model.h">
+    <ClInclude Include="Color.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Mesh.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
@@ -364,18 +349,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="ColorBlendVS.hlsl">
-      <Filter>Shader</Filter>
-    </FxCompile>
-    <FxCompile Include="ColorBlendPS.hlsl">
-      <Filter>Shader</Filter>
-    </FxCompile>
-    <FxCompile Include="TexturePS.hlsl">
-      <Filter>Shader</Filter>
-    </FxCompile>
-    <FxCompile Include="TextureVS.hlsl">
-      <Filter>Shader</Filter>
-    </FxCompile>
     <FxCompile Include="SolidVS.hlsl">
       <Filter>Shader</Filter>
     </FxCompile>
@@ -388,10 +361,8 @@
     <FxCompile Include="PhongPS.hlsl">
       <Filter>Shader</Filter>
     </FxCompile>
-    <FxCompile Include="BlendedPhongPS.hlsl" />
-    <FxCompile Include="BlendedPhongVS.hlsl" />
-    <FxCompile Include="IndexedPhongPS.hlsl" />
-    <FxCompile Include="TexturedPhongPS.hlsl" />
-    <FxCompile Include="TexturedPhongVS.hlsl" />
+    <FxCompile Include="BlendedPhongPS.hlsl">
+      <Filter>Shader</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

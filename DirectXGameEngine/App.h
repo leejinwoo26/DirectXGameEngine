@@ -1,12 +1,11 @@
 #pragma once
 #include "Window.h"
 #include "DXTimer.h"
-#include "Box.h"
 #include "ImguiManager.h"
 #include "Camera.h"
 #include "PointLight.h"
 #include <set>
-#include "Model.h"
+#include "Mesh.h"
 
 class App
 {

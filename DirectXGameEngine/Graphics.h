@@ -12,10 +12,17 @@
 #include <random>
 #include "ConditionalNoexcept.h"
 
+#include "ConditionalNoexcept.h"
+namespace Bind
+{
+	class Bindable;
+}
+
+
 class Graphics
 {
 public:
-	friend class Bindable;
+	friend Bind::Bindable;
 
 	class Exception : public DXException
 	{
@@ -63,7 +70,7 @@ public:
 
 	void EndFrame();
 	void BeginFrame(float red, float green, float blue) noexcept;
-	void DrawIndexed(UINT count) noexcept;
+	void DrawIndexed(UINT count);
 	void SetProjection(DirectX::FXMMATRIX proj) noexcept;
 	void SetCamera(DirectX::FXMMATRIX cam) noexcept;
 	DirectX::XMMATRIX GetCamera() const noexcept;
