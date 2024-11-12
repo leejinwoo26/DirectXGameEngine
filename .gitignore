@@ -76,7 +76,8 @@ StyleCopReport.xml
 *.ilk
 *.meta
 *.obj
-!DirectXGameEngine/models/*.obj
+!DirectXGameEngine/models/**/*.obj
+!DirectXGameEngine/assimp/bin/*
 *.iobj
 *.pch
 *.pdb
