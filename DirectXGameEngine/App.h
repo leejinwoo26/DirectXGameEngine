@@ -21,7 +21,7 @@ private:
 	Window wnd;
 	Camera cam;
 	DXTimer timer;
-	Model nano{ wnd.Gfx(),"Models\\nano.gltf" };
+	Model nano{ wnd.Gfx(),"Models\\nano_hierarchy.gltf" };
 	float speed_factor = 1.f;
 	PointLight light;
 };

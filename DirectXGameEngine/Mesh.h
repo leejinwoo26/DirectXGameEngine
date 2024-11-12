@@ -31,15 +31,14 @@ private:
 class Node
 {
 	friend class Model;
-	friend class ModelWindow;
 public:
 	Node(int id, const std::string& name, std::vector<Mesh*> meshPtrs, const DirectX::XMMATRIX& transform);
 	void Draw(Graphics& gfx, DirectX::FXMMATRIX accumulatedTransform) const;
 	void SetAppliedTransform(DirectX::FXMMATRIX transform_in) noexcept;
 	int GetId() const noexcept;
+	void ShowTree(Node*& pSelectedNode) const noexcept;
 private:
 	void AddChild(std::unique_ptr<Node> pChild);
-	void ShowTree(std::optional<int>& selectedIndex, Node*& pSelectedNode) const noexcept;
 private:
 	int id;
 	std::string name;
