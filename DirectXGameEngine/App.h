@@ -16,6 +16,7 @@ private:
 	void DoFrame();
 	void ShowImguiDemoWindow();
 private:
+	bool showDemoWindow = false;
 	ImguiManager imgui;
 	Window wnd;
 	Camera cam;

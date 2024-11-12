@@ -56,6 +56,7 @@ public:
 	void SetTitle(const std::wstring& title);
 	void EnableCursor() noexcept;
 	void DisableCursor() noexcept;
+	bool CursorEnabled() const noexcept;
 	static std::optional<int> ProcessMessage();
 	Graphics& Gfx();
 private:
@@ -72,10 +73,11 @@ public:
 	Keyboard kbd;
 	Mouse mouse;
 private:
-	bool cursorEnable = false;
+	bool cursorEnable = true;
 	int width;
 	int height;
 	HWND hWnd;
 	std::unique_ptr<Graphics> pGfx;
+	std::vector<BYTE> rawBuffer;
 };
 

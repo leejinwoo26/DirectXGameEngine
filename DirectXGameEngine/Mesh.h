@@ -33,13 +33,15 @@ class Node
 	friend class Model;
 	friend class ModelWindow;
 public:
-	Node(const std::string& name, std::vector<Mesh*> meshPtrs, const DirectX::XMMATRIX& transform_in);
+	Node(int id, const std::string& name, std::vector<Mesh*> meshPtrs, const DirectX::XMMATRIX& transform);
 	void Draw(Graphics& gfx, DirectX::FXMMATRIX accumulatedTransform) const;
 	void SetAppliedTransform(DirectX::FXMMATRIX transform_in) noexcept;
-	void ShowTree(int& nodeIndex, std::optional<int>& selectedIndex, Node*& pSelectedNode) const noexcept;
+	int GetId() const noexcept;
 private:
 	void AddChild(std::unique_ptr<Node> pChild);
+	void ShowTree(std::optional<int>& selectedIndex, Node*& pSelectedNode) const noexcept;
 private:
+	int id;
 	std::string name;
 	std::vector<std::unique_ptr<Node>> childPtrs;
 	std::vector<Mesh*> meshPtrs;
@@ -55,7 +57,7 @@ public:
 	~Model() noexcept;
 private:
 	static std::unique_ptr<Mesh> ParseMesh(Graphics& gfx, const aiMesh& mesh);
-	std::unique_ptr<Node> ParseNode(const aiNode& node) noexcept;
+	std::unique_ptr<Node> ParseNode(int& nextId, const aiNode& node) noexcept;
 private:
 	std::unique_ptr<Node> pRoot;
 	std::vector<std::unique_ptr<Mesh>> meshPtrs;
