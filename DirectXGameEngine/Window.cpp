@@ -90,6 +90,22 @@ void Window::SetTitle(const std::wstring& title)
 	}
 }
 
+void Window::EnableCursor() noexcept
+{
+	cursorEnable = true;
+	ShowCursor();
+	EnableImGuiMouse();
+	FreeCursor();
+}
+
+void Window::DisableCursor() noexcept
+{
+	cursorEnable = false;
+	HideCursor();
+	DisableImGuiMouse();
+	ConfineCursor();
+}
+
 std::optional<int> Window::ProcessMessage()
 {
 	MSG msg;
@@ -110,6 +126,39 @@ std::optional<int> Window::ProcessMessage()
 Graphics& Window::Gfx()
 {
 	return *pGfx;
+}
+
+void Window::ConfineCursor() noexcept
+{
+	RECT rect;
+	GetClientRect(hWnd, &rect);
+	MapWindowPoints(hWnd, nullptr, reinterpret_cast<POINT*>(&rect), 2);
+	ClipCursor(&rect);
+}
+
+void Window::FreeCursor() noexcept
+{
+	ClipCursor(nullptr);
+}
+
+void Window::HideCursor() noexcept
+{
+	while (::ShowCursor(FALSE) >= 0);
+}
+
+void Window::ShowCursor() noexcept
+{
+	while (::ShowCursor(TRUE) < 0);
+}
+
+void Window::EnableImGuiMouse() noexcept
+{
+	ImGui::GetIO().ConfigFlags &= ~ImGuiConfigFlags_NoMouse;
+}
+
+void Window::DisableImGuiMouse() noexcept
+{
+	ImGui::GetIO().ConfigFlags |= ImGuiConfigFlags_NoMouse;
 }
 
 LRESULT Window::HandleMsgSetup(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept
@@ -147,6 +196,21 @@ LRESULT Window::HandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noe
 		return 0;
 	case WM_KILLFOCUS:
 		kbd.ClearState();
+		break;
+	case WM_ACTIVATE:
+		if (!cursorEnable)
+		{
+			if (wParam & WA_ACTIVE)
+			{
+				ConfineCursor();
+				HideCursor();
+			}
+			else
+			{
+				FreeCursor();
+				ShowCursor();
+			}
+		}
 		break;
 	case WM_KEYDOWN:
 		break;
@@ -208,6 +272,11 @@ LRESULT Window::HandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noe
 	case WM_LBUTTONDOWN:
 	{
 		SetForegroundWindow(hWnd);
+		if (!cursorEnable)
+		{
+			ConfineCursor();
+			HideCursor();
+		}
 		if (imio.WantCaptureMouse)
 		{
 			break;
