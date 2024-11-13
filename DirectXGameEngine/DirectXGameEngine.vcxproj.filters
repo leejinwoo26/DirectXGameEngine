@@ -150,9 +150,6 @@
     <ClCompile Include="SolidSphere.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="AssTest.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="Mesh.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
@@ -206,12 +203,6 @@
     <ClInclude Include="BindableCommon.h">
       <Filter>헤더 파일\Bindable</Filter>
     </ClInclude>
-    <ClInclude Include="Cone.h">
-      <Filter>헤더 파일\Drawable</Filter>
-    </ClInclude>
-    <ClInclude Include="Cube.h">
-      <Filter>헤더 파일\Drawable</Filter>
-    </ClInclude>
     <ClInclude Include="Drawable.h">
       <Filter>헤더 파일\Drawable</Filter>
     </ClInclude>
@@ -238,12 +229,6 @@
     </ClInclude>
     <ClInclude Include="VertexShader.h">
       <Filter>헤더 파일\Bindable</Filter>
-    </ClInclude>
-    <ClInclude Include="Plane.h">
-      <Filter>헤더 파일\Drawable</Filter>
-    </ClInclude>
-    <ClInclude Include="Prism.h">
-      <Filter>헤더 파일\Drawable</Filter>
     </ClInclude>
     <ClInclude Include="ConstantBuffer.h">
       <Filter>헤더 파일\Bindable</Filter>
@@ -311,12 +296,6 @@
     <ClInclude Include="SolidSphere.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="AssTest.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="TestObject.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="Vertex.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
@@ -362,6 +341,9 @@
       <Filter>Shader</Filter>
     </FxCompile>
     <FxCompile Include="BlendedPhongPS.hlsl">
+      <Filter>Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="PhongPSSpecMap.hlsl">
       <Filter>Shader</Filter>
     </FxCompile>
   </ItemGroup>
