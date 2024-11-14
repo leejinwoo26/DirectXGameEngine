@@ -29,42 +29,49 @@ namespace DXexp
 			using SysType = DirectX::XMFLOAT2;
 			static constexpr DXGI_FORMAT dxgiFormat = DXGI_FORMAT_R32G32_FLOAT;
 			static constexpr const char* semantic = "Position";
+			static constexpr const char* code = "P2";
 		};
 		template<> struct Map<Position3D>
 		{
 			using SysType = DirectX::XMFLOAT3;
 			static constexpr DXGI_FORMAT dxgiFormat = DXGI_FORMAT_R32G32B32_FLOAT;
 			static constexpr const char* semantic = "Position";
+			static constexpr const char* code = "P3";
 		};
 		template<> struct Map<Texture2D>
 		{
 			using SysType = DirectX::XMFLOAT2;
 			static constexpr DXGI_FORMAT dxgiFormat = DXGI_FORMAT_R32G32_FLOAT;
 			static constexpr const char* semantic = "Texcoord";
+			static constexpr const char* code = "T2";
 		};
 		template<> struct Map<Normal>
 		{
 			using SysType = DirectX::XMFLOAT3;
 			static constexpr DXGI_FORMAT dxgiFormat = DXGI_FORMAT_R32G32B32_FLOAT;
 			static constexpr const char* semantic = "Normal";
+			static constexpr const char* code = "N";
 		};
 		template<> struct Map<Float3Color>
 		{
 			using SysType = DirectX::XMFLOAT3;
 			static constexpr DXGI_FORMAT dxgiFormat = DXGI_FORMAT_R32G32B32_FLOAT;
 			static constexpr const char* semantic = "Color";
+			static constexpr const char* code = "C3";
 		};
 		template<> struct Map<Float4Color>
 		{
 			using SysType = DirectX::XMFLOAT4;
 			static constexpr DXGI_FORMAT dxgiFormat = DXGI_FORMAT_R32G32B32A32_FLOAT;
 			static constexpr const char* semantic = "Color";
+			static constexpr const char* code = "C4";
 		};
 		template<> struct Map<BGRAColor>
 		{
 			using SysType = ::BGRAColor;
 			static constexpr DXGI_FORMAT dxgiFormat = DXGI_FORMAT_R8G8B8A8_UNORM;
 			static constexpr const char* semantic = "Color";
+			static constexpr const char* code = "C8";
 		};
 
 		class Element
@@ -76,10 +83,11 @@ namespace DXexp
 			size_t Size() const ;
 			static constexpr size_t SizeOf(ElementType type) ;
 			ElementType GetType() const noexcept;
-			D3D11_INPUT_ELEMENT_DESC GetDesc() const ;
+			D3D11_INPUT_ELEMENT_DESC GetDesc() const;
+			const char* GetCode() const noexcept;
 		private:
 			template<ElementType type>
-			static constexpr D3D11_INPUT_ELEMENT_DESC GenerateDesc(size_t offset) 
+			static constexpr D3D11_INPUT_ELEMENT_DESC GenerateDesc(size_t offset) noexcept
 			{
 				return { Map<type>::semantic,0,Map<type>::dxgiFormat,0,(UINT)offset,D3D11_INPUT_PER_VERTEX_DATA,0 };
 			}
@@ -106,6 +114,7 @@ namespace DXexp
 		size_t Size() const ;
 		size_t GetElementCount() const noexcept;
 		std::vector<D3D11_INPUT_ELEMENT_DESC> GetD3DLayout() const ;
+		std::string GetCode() const;
 	private:
 		std::vector<Element> elements;
 	};

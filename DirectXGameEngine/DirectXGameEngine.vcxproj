@@ -161,6 +161,7 @@
   <ItemGroup>
     <ClCompile Include="App.cpp" />
     <ClCompile Include="Bindable.cpp" />
+    <ClCompile Include="BindableCodex.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Drawable.cpp" />
     <ClCompile Include="DrawableBase.cpp" />
@@ -200,13 +201,13 @@
   <ItemGroup>
     <ClInclude Include="App.h" />
     <ClInclude Include="Bindable.h" />
+    <ClInclude Include="BindableCodex.h" />
     <ClInclude Include="BindableCommon.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Color.h" />
     <ClInclude Include="ConditionalNoexcept.h" />
     <ClInclude Include="ConstantBuffer.h" />
     <ClInclude Include="Drawable.h" />
-    <ClInclude Include="DrawableBase.h" />
     <ClInclude Include="dxerr.h" />
     <ClInclude Include="DXException.h" />
     <ClInclude Include="DxgiInfoManager.h" />
