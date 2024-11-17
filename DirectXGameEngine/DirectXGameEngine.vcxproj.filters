@@ -165,6 +165,9 @@
     <ClCompile Include="TransformCbufDoubleboi.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="TestCube.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="WindowsMessageMap.h">
@@ -321,6 +324,12 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="TransformCbufDoubleboi.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="TestCube.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Cube.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

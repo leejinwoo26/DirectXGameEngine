@@ -138,10 +138,12 @@ namespace DXexp
 	vertex(v)
 	{}
 	// VertexBuffer
-	VertexBuffer::VertexBuffer(VertexLayout layout) 
+	VertexBuffer::VertexBuffer(VertexLayout layout, size_t size)
 		:
 		layout(std::move(layout))
-	{}
+	{
+		Resize(size);
+	}
 	const char* VertexBuffer::GetData() const 
 	{
 		return buffer.data();
@@ -149,6 +151,14 @@ namespace DXexp
 	const VertexLayout& VertexBuffer::GetLayout() const noexcept
 	{
 		return layout;
+	}
+	void VertexBuffer::Resize(size_t newSize) noexcept
+	{
+		const auto size = Size();
+		if (size < newSize)
+		{
+			buffer.resize(buffer.size() + layout.Size() * (newSize - size));
+		}
 	}
 	size_t VertexBuffer::Size() const 
 	{

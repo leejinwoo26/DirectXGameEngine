@@ -206,9 +206,10 @@ namespace DXexp
 	class VertexBuffer
 	{
 	public:
-		VertexBuffer(VertexLayout layout) ;
+		VertexBuffer(VertexLayout layout, size_t size = 0u) ;
 		const char* GetData() const ;
 		const VertexLayout& GetLayout() const noexcept;
+		void Resize(size_t newSize) noexcept;
 		size_t Size() const ;
 		size_t SizeBytes() const ;
 		template<typename ...Params>
